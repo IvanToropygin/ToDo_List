@@ -1,6 +1,5 @@
 package com.sumin.todolist
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -56,7 +55,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showNotes() {
-//        linearLayoutNotes.removeAllViews()
         for (note in notesList) {
             val item: View = layoutInflater.inflate(R.layout.note_item, linearLayoutNotes, false)
             val textView = item.findViewById<TextView>(R.id.textViewNote)
