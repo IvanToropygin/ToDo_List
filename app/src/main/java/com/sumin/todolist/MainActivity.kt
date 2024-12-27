@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         initView()
         generateNotes()
         showNotes()
+        fabAddNote.setOnClickListener {
+            startActivity(AddNoteActivity.newIntent(this))
+        }
     }
 
     private fun initView() {

@@ -33,7 +33,9 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_green_light"
             android:padding="16dp"
-            android:text="@string/low" />
+            android:text="@string/low"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/radioButtonMedium"
@@ -41,7 +43,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_orange_light"
             android:padding="16dp"
-            android:text="@string/medium" />
+            android:text="@string/medium"
+            android:textColor="@color/white" />
 
         <RadioButton
             android:id="@+id/radioButtonHigh"
@@ -50,7 +53,9 @@
             android:background="@android:color/holo_red_light"
             android:checked="true"
             android:padding="16dp"
-            android:text="@string/high" />
+            android:text="@string/high"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </RadioGroup>
 
     <Button
@@ -59,5 +64,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/save" />
+        android:text="@string/save"
+        android:textStyle="bold" />
 </LinearLayout>
