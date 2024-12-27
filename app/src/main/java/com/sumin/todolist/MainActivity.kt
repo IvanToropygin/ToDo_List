@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sumin.todolist.databinding.ActivityMainBinding
-import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var linearLayoutNotes: LinearLayout
     private lateinit var fabAddNote: FloatingActionButton
-    private lateinit var notesList: MutableList<Note>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,31 +32,29 @@ class MainActivity : AppCompatActivity() {
         }
 
         initView()
-        generateNotes()
-        showNotes()
         fabAddNote.setOnClickListener {
             startActivity(AddNoteActivity.newIntent(this))
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        showNotes()
+    }
+
     private fun initView() {
         linearLayoutNotes = binding.linearLayoutNotes
         fabAddNote = binding.buttonAddNote
-        notesList = mutableListOf()
-    }
-
-    private fun generateNotes() {
-        for (i in 0 until 20) notesList.add(
-            Note(
-                id = i,
-                noteContent = "Note $i",
-                priority = Random.nextInt(1, 4)
-            )
-        )
     }
 
     private fun showNotes() {
-        for (note in notesList) {
+        linearLayoutNotes.removeAllViews()
+        val noteList = NotesDB.getNotes()
+        if (noteList.isEmpty()) {
+            return
+        }
+
+        noteList.forEach { note ->
             val item: View = layoutInflater.inflate(R.layout.note_item, linearLayoutNotes, false)
             val textView = item.findViewById<TextView>(R.id.textViewNote)
             textView.text = note.noteContent

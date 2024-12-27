@@ -47,9 +47,12 @@ class AddNoteActivity : AppCompatActivity() {
     }
 
     private fun saveNote() {
+        val id = NotesDB.getNotes().size
         val inputText = inputNoteContentField.text.toString().trim()
         val priority = getPriority()
-
+        val note = Note(id, inputText, priority)
+        NotesDB.addNote(note)
+        finish()
     }
 
     private fun getPriority() = when {
