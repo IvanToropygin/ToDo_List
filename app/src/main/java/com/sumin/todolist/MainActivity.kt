@@ -65,6 +65,11 @@ class MainActivity : AppCompatActivity() {
             }
             textView.setBackgroundColor(ContextCompat.getColor(this, colorResId))
             linearLayoutNotes.addView(item)
+
+            textView.setOnClickListener {
+                NotesDB.removeAt(note.id)
+                showNotes()
+            }
         }
     }
 }
