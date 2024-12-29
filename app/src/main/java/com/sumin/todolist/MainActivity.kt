@@ -2,6 +2,7 @@ package com.sumin.todolist
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sumin.todolist.databinding.ActivityMainBinding
@@ -33,6 +34,26 @@ class MainActivity : AppCompatActivity() {
         fabAddNote.setOnClickListener {
             startActivity(AddNoteActivity.newIntent(this))
         }
+
+        val itemTouchHelper =
+            ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder,
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+                    val noteToDelete = notesAdapter.getNoteAtPosition(position)
+                    notesAdapter.removeNote(noteToDelete)
+                    NotesDB.removeAt(noteToDelete.id)
+                }
+            })
+
+        itemTouchHelper.attachToRecyclerView(binding.recyclerViewNotes)
     }
 
     override fun onResume() {
