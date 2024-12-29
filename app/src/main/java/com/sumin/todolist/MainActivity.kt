@@ -19,10 +19,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerViewNotes.adapter = notesAdapter
-
         initView()
+        binding.recyclerViewNotes.adapter = notesAdapter
         showNotes()
+
+        notesAdapter.setOnNoteClickListener(object : NotesAdapter.OnNoteClickListener {
+            override fun onNoteClick(note: Note) {
+                notesAdapter.removeNote(note)
+                NotesDB.removeAt(note.id)
+            }
+        })
+
         fabAddNote.setOnClickListener {
             startActivity(AddNoteActivity.newIntent(this))
         }

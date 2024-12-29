@@ -9,15 +9,20 @@ import com.sumin.todolist.databinding.NoteItemBinding
 class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
     private var notes = listOf<Note>()
+    private lateinit var onNoteClickListener: OnNoteClickListener
 
     fun setNotes(notes: List<Note>) {
         this.notes = notes
         notifyDataSetChanged()
     }
 
+    fun setOnNoteClickListener(listener: OnNoteClickListener) {
+        this.onNoteClickListener = listener
+    }
+
     class NotesViewHolder(private val binding: NoteItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Note) {
+        fun bind(item: Note, listener: OnNoteClickListener?) {
             binding.textViewNote.text = item.noteContent
             val colorResId = when (item.priority) {
                 1 -> android.R.color.holo_green_light
@@ -30,6 +35,10 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
                     colorResId
                 )
             )
+
+            binding.root.setOnClickListener {
+                listener?.onNoteClick(item)
+            }
         }
     }
 
@@ -39,8 +48,17 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
     }
 
     override fun onBindViewHolder(viewHolder: NotesViewHolder, position: Int) {
-        viewHolder.bind(notes[position])
+        viewHolder.bind(notes[position], onNoteClickListener)
     }
 
     override fun getItemCount() = notes.size
+
+    interface OnNoteClickListener {
+        fun onNoteClick(note: Note)
+    }
+
+    fun removeNote(note: Note) {
+        notes = notes.filter { it != note }
+        notifyDataSetChanged()
+    }
 }
